@@ -1,13 +1,15 @@
 import { test, expect } from '@playwright/test';
 
+import logindata from "../testdata/login.json"
+
 test('Verify login with Valid credentials', async ({ page }) => {
 
   // actions 
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
   await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('Admin');
+  await page.getByRole('textbox', { name: 'Username' }).fill(logindata.username);
   await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin123');
+  await page.getByRole('textbox', { name: 'Password' }).fill(logindata.password);
   await page.getByRole('button', { name: 'Login' }).click();
 
   // assertions 
@@ -19,9 +21,9 @@ test('Verify login with Valid credentials', async ({ page }) => {
 test('Verify login with valid username and invalid password', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
   await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('Admin');
+  await page.getByRole('textbox', { name: 'Username' }).fill(logindata.username);
   await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('jerbgfiherbfj3eiulfgferiojfhg');
+  await page.getByRole('textbox', { name: 'Password' }).fill(logindata.wrongpassword);
   await page.getByRole('button', { name: 'Login' }).click();
   await expect(page.getByText('Invalid credentials')).toBeVisible();
 });
@@ -30,9 +32,9 @@ test('Verify login with valid username and invalid password', async ({ page }) =
 test('Verify login with invalid username and valid password', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
   await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('vheg,mnbj');
+  await page.getByRole('textbox', { name: 'Username' }).fill(logindata.wrongusername);
   await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin123');
+  await page.getByRole('textbox', { name: 'Password' }).fill(logindata.password);
   await page.getByRole('button', { name: 'Login' }).click();
   await expect(page.getByText('Invalid credentials')).toBeVisible();
 });
@@ -41,9 +43,9 @@ test('Verify login with invalid username and valid password', async ({ page }) =
 test('Verify login with invalid username and invalid password', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
   await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('vheg,mnbj');
+  await page.getByRole('textbox', { name: 'Username' }).fill(logindata.wrongusername);
   await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('erierbhgiuer');
+  await page.getByRole('textbox', { name: 'Password' }).fill(logindata.wrongpassword);
   await page.getByRole('button', { name: 'Login' }).click();
   await expect(page.getByText('Invalid credentials')).toBeVisible();
 });

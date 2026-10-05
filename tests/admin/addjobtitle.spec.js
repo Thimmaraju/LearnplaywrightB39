@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 
+import data from "../../testdata/login.json"
+
+import { faker } from '@faker-js/faker';
+
 test('Verify Admin can add job title', async ({ page }) => {
   console.log('Step 1: Navigate to the OrangeHRM login page');
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
@@ -7,12 +11,12 @@ test('Verify Admin can add job title', async ({ page }) => {
   console.log('Step 2: Click the Username field');
   await page.getByRole('textbox', { name: 'Username' }).click();
   console.log('Step 3: Enter the username');
-  await page.getByRole('textbox', { name: 'Username' }).fill('Admin');
+  await page.getByRole('textbox', { name: 'Username' }).fill(data.username);
 
   console.log('Step 4: Click the Password field');
   await page.getByRole('textbox', { name: 'Password' }).click();
   console.log('Step 5: Enter the password');
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin123');
+  await page.getByRole('textbox', { name: 'Password' }).fill(data.password);
 
   console.log('Step 6: Click Login');
   await page.getByRole('button', { name: 'Login' }).click();
@@ -30,7 +34,15 @@ test('Verify Admin can add job title', async ({ page }) => {
   console.log('Step 12: Click the job title field');
   await page.getByRole('textbox').nth(1).click();
   console.log('Step 13: Enter the job title');
-  await page.getByRole('textbox').nth(1).fill('SDET12345');
+
+ // const data1 = new Date()
+
+ //const randomString = Math.random().toString(36).substring(2, 7); // this willm generate random5chars 
+
+ // await page.getByRole('textbox').nth(1).fill("testjobtitle"+randomString);
+  await page.getByRole('textbox').nth(1).fill(faker.person.jobTitle());
+
+  await page.waitForTimeout(4000) // this will halt the executio for 4 sec 
   console.log('Step 14: Click the description field');
   await page.getByRole('textbox', { name: 'Type description here' }).click();
   console.log('Step 15: Enter the job description');
